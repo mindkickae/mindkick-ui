@@ -1,0 +1,4 @@
+{
+  "name": "MIND KICK AI Assistant",
+  "description": "An AI-powered assistant UI to help users discover services, get instant answers, and find exactly what they need. A clean, modern interface built with React and Tailwind CSS."
+}
