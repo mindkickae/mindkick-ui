@@ -1,0 +1,117 @@
+import React, { useState, useEffect } from 'react';
+
+// Arrow SVG for the button
+const ArrowIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-6 w-6"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2.5}
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+  </svg>
+);
+
+const CHIP_SUGGESTIONS = [
+  'Services',
+  'Studio',
+  'Pricing',
+  'Contact',
+];
+
+const ProgressBar = () => (
+    <div className="w-16 h-16 bg-[#E98EAA] rounded-full animate-soft-pulse"></div>
+);
+
+
+export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isInputFocused, setIsInputFocused] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500); // 1.5 second delay
+
+    return () => clearTimeout(timer); // Cleanup timer on unmount
+  }, []);
+
+
+  return (
+    <div className="relative min-h-screen w-full flex flex-col items-center justify-between p-4 sm:p-6 lg:p-8 bg-[#EDF5E7] text-[#0A211C] overflow-x-hidden">
+      <header className="w-full flex justify-center py-4">
+        {/* Placeholder for the logo */}
+        <img src="https://raw.githubusercontent.com/mindkickae/mindkick-assets/780a00c680b66a41187182be43b506ca927c5b62/mk-logo.svg" alt="MIND KICK logo" className="h-12"/>
+      </header>
+
+      <main className="flex-grow flex flex-col items-center justify-center text-center w-full max-w-4xl px-4">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
+          Explore Smarter. Decide Faster.
+        </h1>
+        <p className="mt-4 text-lg sm:text-xl max-w-2xl text-[#0A211C]/90">
+          Your AI-powered assistant is here to help you discover our services, get instant answers, and find exactly what you need.
+        </p>
+
+        <div className="relative w-full mt-12 flex justify-center items-center min-h-[160px]">
+           {isLoading ? (
+            <ProgressBar />
+           ) : (
+             <div className="w-full animate-fadeInUp">
+                {/* Subtle Glow Effect */}
+                <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 -z-0">
+                  <div
+                    className="mx-auto h-[150px] w-full max-w-3xl bg-gradient-to-r from-[#a4bd75]/30 via-[#e98eaa]/20 to-[#a4bd75]/30 blur-3xl"
+                  ></div>
+                </div>
+
+              {/* Chat Container */}
+              <div className="relative w-full p-4 sm:p-6 rounded-3xl bg-[#EDF5E7] border-[1.5px] border-[#A4BD75] shadow-[0_8px_40px_rgba(10,33,28,0.08)] flex flex-col gap-4">
+                <div
+                    className={`flex flex-wrap items-center justify-center gap-2 sm:gap-3 overflow-hidden transition-all duration-500 ease-in-out ${isInputFocused ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'}`}
+                  >
+                  {CHIP_SUGGESTIONS.map((text) => (
+                    <button
+                      key={text}
+                      className="rounded-full px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-base bg-white/60 text-[#0A211C] shadow-sm transition-transform hover:scale-105 w-[calc(50%-0.25rem)] sm:w-auto"
+                    >
+                      {text}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="flex items-center w-full gap-2 sm:gap-3">
+                    <input
+                        type="text"
+                        placeholder="Ask me anything..."
+                        onFocus={() => setIsInputFocused(true)}
+                        onBlur={() => setIsInputFocused(false)}
+                        className="w-full flex-grow bg-white/60 text-[#0A211C] placeholder:text-[#0A211C]/60 rounded-full px-5 py-2.5 border-none focus:ring-2 focus:ring-[#E98EAA]/50 focus:outline-none transition-shadow"
+                    />
+                    <button
+                        aria-label="Submit query"
+                        className="flex-shrink-0 h-14 w-14 rounded-full bg-[#E98EAA] text-white flex items-center justify-center shadow-sm transition-all hover:ring-4 hover:ring-[#E98EAA]/40"
+                    >
+                        <ArrowIcon />
+                    </button>
+                </div>
+              </div>
+            </div>
+           )}
+        </div>
+
+        {/* Partner Logos */}
+        <div className="mt-16 w-full max-w-3xl">
+          <img src="https://raw.githubusercontent.com/mindkickae/mindkick-assets/0e6e2428ca9077e597768270021b15118496c75d/partners.webp" alt="Partners" className="w-full h-auto" />
+        </div>
+      </main>
+
+      <footer className="w-full text-center py-4 mt-8">
+        <p className="text-sm text-[#0A211C]/60">
+          All Rights Reserved @ Mind Kick 2014 – 2025
+        </p>
+      </footer>
+    </div>
+  );
+}
